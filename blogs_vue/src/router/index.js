@@ -9,6 +9,7 @@ export default new Router({
         {
             path: '/',
             component: () => import('./../page/login.vue')
+            // component:()=>import('./../test.vue')
         },
 
     ]

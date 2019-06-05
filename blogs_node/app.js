@@ -8,7 +8,34 @@ var usersRouter = require('./routes/users');
 var API = require('./api')
 var app = express();
 
-// view engine setup
+
+
+// 引入session模块
+var Session = require('express-session');
+// 配置session中间件
+app.use(Session({
+  secret: 'qll_Blogs',//生成一个session签名
+  name: 'session_id',//保存本地cookie的名字
+  saveUninitialized: true,//强制未初始化的session储存
+  cookie: {
+    maxAge: 1000 * 60 * 30
+  },//设置cookie的过期时间
+  rolling: true//每次请求的时候强制刷新 cookie的过期时间
+}))
+
+
+
+
+// 允许访问域名
+const corp = 'http://localhost:8080/';
+
+//设置跨域访问
+app.all("*", function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
