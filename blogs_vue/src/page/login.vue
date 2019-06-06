@@ -1,11 +1,11 @@
 <template>
   <div class="warp">
     <el-form label-width="80px" :rules="rules" :model="from">
-      <el-form-item label="账号" prop="username">
+      <el-form-item label="账号：" prop="username">
         <el-input v-model="from.username" placeholder="以字母开头的6-8位数"></el-input>
       </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="from.password"></el-input>
+      <el-form-item label="密码:">
+        <el-input v-model="from.password" show-password placeholder="请输入密码"></el-input>
       </el-form-item>
       <el-form-item class="btns">
         <el-button @click="click">登录</el-button>
@@ -15,6 +15,7 @@
 </template>
 <script>
 import { login } from "./../api/webapi/user";
+import { setTimeout } from "timers";
 
 export default {
   data() {
@@ -58,6 +59,7 @@ export default {
           message: "欢迎回家！！",
           type: "success"
         });
+        this.jumpPage();
       } else {
         this.$message.error("密码或账号错误！！！");
         this.init();
@@ -66,6 +68,12 @@ export default {
     init() {
       this.from.password = "";
       this.from.username = "";
+    },
+    jumpPage() {
+      var that = this;
+      setTimeout(() => {
+        that.$router.push("/admin");
+      }, 1000);
     }
   },
   created() {}

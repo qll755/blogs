@@ -26,17 +26,18 @@ class Ajax {
     }
     async http(conf) {
         // try {
-            let ajax = this.ajax
-            let result = await ajax(conf)
-            return new Promise((res, rej) => {
-                if (result.status === 200) {
-                    console.log('请求成功,信息为:   ' + JSON.stringify(result.data))
-                    res(result.data)
-                } else {
-                    console.log('请求失败,信息为:   ' + result)
-                    console.log('请联系后台人员    qq:1532900523')
-                }
-            })
+        let ajax = this.ajax;
+        ajax.defaults.withCredentials = true;
+        let result = await ajax(conf)
+        return new Promise((res, rej) => {
+            if (result.status === 200) {
+                console.log('请求成功,信息为:   ' + JSON.stringify(result.data))
+                res(result.data)
+            } else {
+                console.log('请求失败,信息为:   ' + result)
+                console.log('请联系后台人员    qq:1532900523')
+            }
+        })
         // } catch{
         //     console.log('发生了不可预料的结果')
         // }
@@ -45,4 +46,4 @@ class Ajax {
 
 
 var ajax = new Ajax();
-export default  ajax
+export default ajax
