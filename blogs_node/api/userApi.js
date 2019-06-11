@@ -9,6 +9,7 @@ router.get('/user/stroe', (req, res) => {
     if (falg) {
         res.send([{ code: 0, msg: '登录成功！！' }])
     } else {
+        console.log(1)
         res.send([{ code: 1, msg: '身份以过期请重新登录！！' }])
     }
 })

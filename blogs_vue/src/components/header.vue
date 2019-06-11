@@ -14,8 +14,8 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>修改密码</el-dropdown-item>
           <el-dropdown-item>
-            主题颜色：
-            <el-color-picker v-model="color"></el-color-picker>
+            修改主题
+            <el-color-picker v-model="color" @active-change="colorChange"></el-color-picker>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -24,9 +24,19 @@
 </template>
 <script>
 export default {
-  data(){
-    return{
-      color:'rgb(43, 113, 121)'
+  data() {
+    return {
+      color: "#2B7179"
+    };
+  },
+  methods: {
+    colorChange(color) {
+      var rgb = color.split(",");
+      var r = parseInt(rgb[0].split("(")[1]);
+      var g = parseInt(rgb[1]);
+      var b = parseInt(rgb[2].split(")")[0]);
+      var hex = +((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+      this.$emit("backgroundchange", hex);
     }
   }
 };
@@ -54,5 +64,18 @@ export default {
 }
 .el-dropdown {
   color: aliceblue;
+}
+.el-dropdown-menu__item {
+  position: relative;
+}
+.el-color-picker {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+  opacity: 0;
+}
+.el-color-picker__trigger {
+  width: 100%;
 }
 </style>

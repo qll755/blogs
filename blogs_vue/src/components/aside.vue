@@ -2,7 +2,7 @@
   <el-menu
     default-active="2"
     class="el-menu-vertical-demo"
-    background-color="#545c64"
+    :background-color="AsideColor"
     text-color="#fff"
     active-text-color="#ffd04b"
     @select="jumpPage"
@@ -43,6 +43,7 @@
 </template>
 <script>
 export default {
+  props: ["AsideColor"],
   methods: {
     jumpPage(e) {
       if (e === "0") {
@@ -58,5 +59,12 @@ export default {
 <style>
 .el-menu {
   border: 0px solid saddlebrown;
+  background-color: transparent;
+}
+.el-menu-item:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+.el-menu-item.is-active {
+  color: black !important;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <el-container>
-    <el-header>
-      <Header/>
+    <el-header :style="'background:'+HeaderColor+';'">
+      <Header @backgroundchange="corlor"/>
     </el-header>
     <el-container>
-      <el-aside>
-        <AsideLeft/>
+      <el-aside :style="'background:'+AsideColor+';'">
+        <AsideLeft :corlor="AsideColor"/>
       </el-aside>
       <el-main>
         <router-view>
@@ -19,6 +19,21 @@
 import Header from "./../components/header"; //引入头部信息
 import AsideLeft from "./../components/aside"; //左侧导航栏
 export default {
+  data() {
+    return {
+      HeaderColor: "#2B7179",
+      AsideColor: "#545c64"
+    };
+  },
+  methods: {
+    corlor(e) {
+      var tennum = parseInt(e, 16);
+      var newcolr = tennum + 2681579;
+      var hex = "#" + newcolr.toString(16);
+      this.HeaderColor = "#" + e;
+      this.AsideColor = hex;
+    }
+  },
   components: { Header, AsideLeft },
   created() {}
 };
@@ -30,11 +45,9 @@ export default {
 }
 .el-aside {
   height: 91vh;
-  background: #545c64;
   width: 21vh !important;
 }
 .el-header {
-  background: rgb(43, 113, 121);
   color: white;
 }
 .el-main {
