@@ -51,6 +51,6 @@ export default {
   color: white;
 }
 .el-main {
-  background: gainsboro;
+  background: white;
 }
 </style>

@@ -7,7 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var API = require('./api')
 var app = express();
-
+var test = require('./db/moudel/articleType')
 
 
 // 引入session模块
@@ -33,6 +33,7 @@ const corp = 'http://192.168.3.15:8080';
 app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", corp);
   res.header('Access-Control-Allow-Credentials', 'true')
+  res.header('Access-Control-Allow-Headers', "content-type")
   next();
 });
 

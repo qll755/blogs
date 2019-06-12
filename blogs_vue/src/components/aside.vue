@@ -62,6 +62,7 @@ export default {
   background-color: transparent;
 }
 .el-menu-item:hover {
+  color: white;
   background: rgba(0, 0, 0, 0.3);
 }
 .el-menu-item.is-active {
