@@ -4,14 +4,12 @@
       <div>
         <div class="el-input-group__prepend t">文章类型</div>
         <el-select v-model="type" placeholder="请选择" class="select">
-          <el-option-group v-for="group in options3" :key="group.label" :label="group.label">
-            <el-option
-              v-for="item in group.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-option-group>
+          <el-option
+            v-for="item in typeList"
+            :key="item.id"
+            :label="item.typename"
+            :value="item.typename"
+          ></el-option>
         </el-select>
       </div>
       <el-input placeholder="请输入内容" v-model="tittle">
@@ -27,50 +25,18 @@
 <script>
 import { getDate } from "./../../utlis/getDate";
 import { addArticle } from "./../../api/webapi/article";
+import { articleTypeList } from "./../../api/webapi/articleType";
 export default {
   data() {
     return {
       content: "",
       type: "",
       tittle: "",
-      options3: [
-        {
-          label: "热门城市",
-          options: [
-            {
-              value: "Shanghai",
-              label: "上海"
-            },
-            {
-              value: "Beijing",
-              label: "北京"
-            }
-          ]
-        },
-        {
-          label: "城市名",
-          options: [
-            {
-              value: "Chengdu",
-              label: "成都"
-            },
-            {
-              value: "Shenzhen",
-              label: "深圳"
-            },
-            {
-              value: "Guangzhou",
-              label: "广州"
-            },
-            {
-              value: "Dalian",
-              label: "大连"
-            }
-          ]
-        }
-      ],
-      value7: ""
+      typeList: ""
     };
+  },
+  created() {
+    this.getTypeList();
   },
   methods: {
     async saveHtml() {
@@ -86,10 +52,19 @@ export default {
           message: "已保存",
           type: "success"
         });
-        this.jumpPage();
+        this.init();
       } else {
         this.$message.error("保存失败！请重新登录账号尝试！");
       }
+    },
+    async getTypeList() {
+      var result = await articleTypeList();
+      this.typeList = result.data;
+    },
+    init() {
+      this.content = "";
+      this.type = "";
+      this.tittle = "";
     }
   }
 };

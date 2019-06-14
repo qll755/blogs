@@ -4,4 +4,8 @@ addArticle = async (req, res) => {
     var result = await DbServe.C(req.body)
     res.send(result)
 }
-module.exports = { addArticle }
+articleList = async (req, res) => {
+    var result = await DbServe.R({}, req.query.page,req.query.limit);
+    res.send(result)
+}
+module.exports = { addArticle, articleList }

@@ -31,9 +31,9 @@
       <i class="el-icon-message"></i>
       <span slot="title">文章评论</span>
     </el-menu-item>
-    <el-menu-item index="accountSetting">
+    <el-menu-item index="recyclebin">
       <i class="el-icon-setting"></i>
-      <span slot="title">账户设置</span>
+      <span slot="title">回收站</span>
     </el-menu-item>
     <el-menu-item index="0">
       <i class="el-icon-error"></i>

@@ -25,7 +25,12 @@
   </div>
 </template>
 <script>
-import { addArticleType } from "./../../api/webapi/articleType";
+import {
+  addArticleType,
+  articleTypeList,
+  articleTypeDelete
+} from "./../../api/webapi/articleType";
+import { setChildren } from "./../../utlis/treearr";
 export default {
   data() {
     return {
@@ -37,11 +42,13 @@ export default {
       data4: [],
       defaultProps: {
         children: "children",
-        label: "label"
+        label: "typename"
       }
     };
   },
-
+  created() {
+    this.getTypeList();
+  },
   methods: {
     async append() {
       var newChild = "";
@@ -53,17 +60,26 @@ export default {
       }
       if (this.data4.length == 0 || this.da == "") {
         var id = await this.add(0);
-        newChild = { f_id: 0, label: type, children: [], id };
-        this.data4.push(newChild);
+        if (!id) {
+          this.$message.error("该数据添加失败可能同级中已经存在该分类！");
+        } else {
+          newChild = { f_id: 0, typename: type, children: [], id };
+          this.data4.push(newChild);
+        }
       } else {
         data = this.da;
         var id = await this.add(data.id);
-        newChild = { f_id: 0, label: type, children: [], id };
-        if (!data.children) {
-          this.$set(data, "children", []);
+        if (!id) {
+          this.$message.error("该数据添加失败可能同级中已经存在该分类！");
+        } else {
+          newChild = { f_id: data.id, typename: type, children: [], id };
+          if (!data.children) {
+            this.$set(data, "children", []);
+          }
+          data.children.push(newChild);
+          this.da = "";
+          this.newtype = "";
         }
-        data.children.push(newChild);
-        this.da = "";
       }
       this.addmsg = false;
     },
@@ -124,7 +140,7 @@ export default {
         center: true
       })
         .then(() => {
-          this.remove();
+          this.deleteType();
         })
         .catch(() => {
           this.$message({
@@ -142,7 +158,27 @@ export default {
         f_id: f_id
       };
       var result = await addArticleType(obj);
-      return result.data.id;
+      if (result.code != 0) {
+        return false;
+      } else {
+        this.$message({
+          message: "添加成功",
+          type: "success"
+        });
+        return result.data.id;
+      }
+    },
+    async getTypeList() {
+      var resultArr = await articleTypeList();
+      this.data4 = setChildren(resultArr.data);
+    },
+    async deleteType() {
+      var result = await articleTypeDelete({ id: this.da.id });
+      if (result) {
+        this.remove();
+      } else {
+        this.$message.error("删除失败~~~~~~");
+      }
     }
   }
 };

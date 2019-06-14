@@ -1,5 +1,6 @@
 var DB = require('./../db');
 var Sequelize = require('sequelize')
+var user = require('./user')
 const article = DB.define('article', {
     id: {
         type: Sequelize.INTEGER,
@@ -36,5 +37,7 @@ const article = DB.define('article', {
         allowNull: false,//不允许为null
     }
 }, { freezeTableName: true, timestamps: false });
+// 模型关联
+article.belongsTo(user, { foreignKey: 'user_id', targetKey: 'id', as: 'user' })
 article.sync();
 module.exports = article

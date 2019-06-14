@@ -21,4 +21,13 @@ const R = async (where = {}) => {
     }
     return msg
 }
-module.exports = { C, R }
+const D = async (where) => {
+    let msg = { code: 0, msg: '成功' }
+    try {
+        var result = await articleType.destroy({ where: where })
+    } catch{
+        msg.code = 1; msg.msg = '失败'
+    }
+    return msg
+}
+module.exports = { C, R, D }

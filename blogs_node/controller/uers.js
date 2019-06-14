@@ -1,16 +1,17 @@
 var DbServe = require('./../server/userServe')
 findUser = async (req, res) => {
     if (Object.getOwnPropertyNames(req.query).length !== 2) {
-        return res.send([{ code: 1, msg: '登陆失败！！' }])
+        return res.send({ code: 1, msg: '登陆失败！！' })
     }
     // console.log(req.session[req.cookies['session_id']])//打印出为session里保存的用户id
     var result = await DbServe.R(req.query)
-    if (result[0].data.length > 0) {
+    if (result.data.length > 0) {
         // 后台设置session
-        req.session.userID = result[0].data[0].id;
-        result = [{ code: 0, msg: '成功' }]
+        // console.log(result.data[0].id)
+        req.session.userID = result.data[0].id;
+        result = { code: 0, msg: '成功' }
     } else {
-        result = [{ code: 1, msg: '登陆失败！！' }]
+        result = { code: 1, msg: '登陆失败！！' }
     }
     res.send(result)
 }

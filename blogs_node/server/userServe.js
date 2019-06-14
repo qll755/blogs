@@ -21,8 +21,8 @@ const U = async (obj, where) => {
     }
     return msg
 }
-const R = async (where = {}, page = 1, limit = 10, ) => {
-    let msg = [{ code: 0, msg: '成功' }]
+const R = async (where = {}, page = 1, limit = 10) => {
+    let msg = { code: 0, msg: '成功' }
     try {
         var result = await user.findAll({
             where,
@@ -32,9 +32,9 @@ const R = async (where = {}, page = 1, limit = 10, ) => {
             limit: limit,//返回个数
             offset: limit * (page - 1),//起始位置,跳过数量
         })
-        msg[0].data = result
+        msg.data = result
     } catch{
-        msg[0].code = 1; msg.msg[0] = '失败'
+        msg.code = 1; msg.msg[0] = '失败'
     }
     return msg
 }

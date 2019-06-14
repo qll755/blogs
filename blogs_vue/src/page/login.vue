@@ -72,7 +72,7 @@ export default {
     jumpPage() {
       var that = this;
       setTimeout(() => {
-        that.$router.push("/admin");
+        that.$router.push("/admin/home");
       }, 1000);
     }
   },
