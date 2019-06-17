@@ -12,8 +12,13 @@ export const articleList = async (obj) => {
     if (result.code == 1) {
         return false
     } else {
-        return result.data
+        return result
     }
+}
+export const articleUpdata = async (obj) => {
+    var url = before + 'updata';
+    var result = await ajax.POST(url, obj)
+    return falg(result.code)
 }
 function falg(num) {
     if (num == 0) {

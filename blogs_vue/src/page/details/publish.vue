@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="textList" height="500" stripe>
+    <el-table :data="textList" :height="tabHeight" stripe>
       <el-table-column
         width="100"
         label="类型"
@@ -57,6 +57,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="page">
+      <el-pagination
+        @size-change="pageNumChange"
+        @current-change="pageChange"
+        :current-page="1"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="100"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="count"
+      ></el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -66,7 +77,11 @@ export default {
   data() {
     return {
       textList: [],
-      typeList: []
+      typeList: [],
+      count: 0,
+      limit: 10,
+      page: 1,
+      tabHeight: 620
     };
   },
   created() {
@@ -74,8 +89,25 @@ export default {
     this.Alist();
   },
   methods: {
+    pageNumChange(e) {
+      // 每页条数
+      console.log(e);
+      this.limit = e;
+      this.Alist();
+    },
+    pageChange(e) {
+      // 当前页
+      console.log(e);
+      this.page = e;
+      this.Alist();
+    },
     handleEdit(e, d) {
-      debugger;
+      this.$router.push({
+        name: "草稿箱",
+        params: {
+          data: d
+        }
+      });
     },
     filter(value, row) {
       return row.articletype === value;
@@ -90,8 +122,15 @@ export default {
       }
     },
     async Alist() {
-      var result = await articleList();
-      this.textList = result;
+      var obj = {
+        limit: this.limit,
+        page: this.page
+      };
+      var result = await articleList(obj);
+      this.textList = result.data;
+      this.tabHeight = result.data.length * 53 + 80;
+      // debugger
+      this.count = result.count;
     },
     articleInfo(e, v) {}
   }
@@ -104,5 +143,9 @@ export default {
 .articleInfo:hover {
   color: #409eff;
   cursor: pointer;
+}
+.page {
+  display: flex;
+  justify-content: center;
 }
 </style>

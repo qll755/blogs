@@ -5,7 +5,17 @@ addArticle = async (req, res) => {
     res.send(result)
 }
 articleList = async (req, res) => {
-    var result = await DbServe.R({}, req.query.page,req.query.limit);
+    var limit = req.query.limit
+    var page = req.query.page
+    delete req.query.limit;
+    delete req.query.page;
+    var result = await DbServe.R(req.query, page, limit);
     res.send(result)
 }
-module.exports = { addArticle, articleList }
+articleUpadata = async (req, res) => {
+    var where = { id: req.body.id }
+    delete req.body.id;
+    var result = await DbServe.U(req.body, where)
+    res.send(result)
+}
+module.exports = { addArticle, articleList, articleUpadata }

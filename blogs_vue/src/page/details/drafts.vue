@@ -17,14 +17,14 @@
       </el-input>
     </div>
     <div class="ed">
-      <el-button size="small" round @click="saveHtml" class="btn">保存</el-button>
+      <el-button size="small" round @click="setHtml" class="btn">保存/修改</el-button>
       <quill-editor v-model="content" class="editor"></quill-editor>
     </div>
   </div>
 </template>
 <script>
 import { getDate } from "./../../utlis/getDate";
-import { addArticle } from "./../../api/webapi/article";
+import { addArticle, articleUpdata } from "./../../api/webapi/article";
 import { articleTypeList } from "./../../api/webapi/articleType";
 export default {
   data() {
@@ -32,13 +32,49 @@ export default {
       content: "",
       type: "",
       tittle: "",
-      typeList: ""
+      typeList: "",
+      addOrUpdata: true,
+      id: ""
     };
   },
   created() {
+    var params = this.$route.params.data;
+    if (params) {
+      this.addOrUpdata = false;
+      this.content = params.articlecon;
+      this.tittle = params.articletittle;
+      this.type = params.articletype;
+      this.id = params.id;
+    }
     this.getTypeList();
   },
   methods: {
+    setHtml() {
+      if (this.addOrUpdata) {
+        this.saveHtml();
+      } else {
+        this.updata();
+      }
+    },
+    async updata() {
+      var obj = {
+        articletittle: this.tittle,
+        articletype: this.type,
+        articlecon: this.content,
+        createtime: getDate(),
+        id: this.id
+      };
+      var result = await articleUpdata(obj);
+      if (result) {
+        this.$message({
+          message: "已修改!!",
+          type: "success"
+        });
+        this.$router.push('publish')
+      } else {
+        this.$message.error("保存失败！请重新登录账号尝试！");
+      }
+    },
     async saveHtml() {
       var obj = {
         articletittle: this.tittle,
@@ -81,8 +117,8 @@ export default {
 }
 .btn {
   position: absolute;
-  top: 1%;
-  right: 1%;
+  top: 4%;
+  right: 0.5%;
 }
 .el-button {
   border: 1px solid #ccc;

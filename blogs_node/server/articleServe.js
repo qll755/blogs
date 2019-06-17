@@ -25,10 +25,12 @@ const R = async (where = {}, page = 1, limit = 10) => {
             order: [  //根据id排序
                 ["id", "desc"]//根据id倒序
             ],
-            attributes: [ 'id','articletittle', 'articletype', 'articlecon', 'status', 'createtime'],
+            attributes: ['id', 'articletittle', 'articletype', 'articlecon', 'status', 'createtime'],
             limit: parseInt(limit),//返回个数
             offset: limit * (page - 1),//起始位置,跳过数量
         })
+        var count = await article.findAll({ where: where })
+        msg.count = count.length;
         msg.data = result
     } catch{
         msg.code = 1;
@@ -36,4 +38,13 @@ const R = async (where = {}, page = 1, limit = 10) => {
     }
     return msg
 }
-module.exports = { C, R }
+const U = async (obj, where) => {
+    let msg = { code: 0, msg: '成功' }
+    try {
+        var result = await article.update(obj, { where: where })
+    } catch{
+        msg.code = 1; msg.msg = '失败'
+    }
+    return msg
+}
+module.exports = { C, R, U }
