@@ -1,5 +1,6 @@
 var article = require('./../db/moudel/article')
 var user = require('./../db/moudel/user')
+var DB = require('./../db/db')
 const C = async (obj) => {
     // 增加文章的方法
     let msg = { code: 0, msg: '成功' }
@@ -25,7 +26,7 @@ const R = async (where = {}, page = 1, limit = 10) => {
             order: [  //根据id排序
                 ["id", "desc"]//根据id倒序
             ],
-            attributes: ['id', 'articletittle', 'articletype', 'articlecon', 'status', 'createtime'],
+            // attributes: ['id', 'articletittle', 'articletype', 'articlecon', 'status', 'createtime'],
             limit: parseInt(limit),//返回个数
             offset: limit * (page - 1),//起始位置,跳过数量
         })
@@ -47,4 +48,8 @@ const U = async (obj, where) => {
     }
     return msg
 }
-module.exports = { C, R, U }
+const Browse = async (where) => {
+    var id = where.id
+    var result = DB.query('UPDATE `article` SET `browse`=`browse` + 1 WHERE `id` = ' + id)
+}
+module.exports = { C, R, U, Browse }

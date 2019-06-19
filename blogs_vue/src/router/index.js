@@ -56,15 +56,22 @@ var router = new Router({
                 name: '回收站',
                 component: () => import('./../page/details/recyclebin.vue')
             }]
+        }, {
+            path: '/home',
+            name: '首页',
+            component: () => import('./../views/home.vue'),
+            children: [{
+                path: 'index',
+                name: '首页',
+                component: () => import('./../views/details/index.vue')
+            }]
         }
 
     ]
 })
 router.beforeEach(async (to, from, next) => {
-    //当前路由守卫
-    if (to.path == '/') {
-        next()
-    } else {
+    //路由守卫
+    if (to.path.indexOf('/admin') == 0) {
         var title = document.getElementsByTagName('title')[0]
         title.innerText = to.name
         var falg = await GetSes()
@@ -74,6 +81,8 @@ router.beforeEach(async (to, from, next) => {
             alert('您的身份过期了，请重新登录！')
             next('/')
         }
+    } else {
+        next()
     }
 
 

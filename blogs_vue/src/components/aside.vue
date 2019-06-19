@@ -42,16 +42,22 @@
   </el-menu>
 </template>
 <script>
+import { delSess } from "./../api/webapi/user";
 export default {
   props: ["AsideColor"],
   methods: {
     jumpPage(e) {
       if (e === "0") {
+        this.delSesssion();
         // 退出当前账户并销毁session
       } else {
         // 跳转页面的方法
         this.$router.push("/admin/" + e);
       }
+    },
+    async delSesssion() {
+      var result = await delSess();
+      this.$router.push("/");
     }
   }
 };

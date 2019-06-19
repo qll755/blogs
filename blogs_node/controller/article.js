@@ -18,4 +18,9 @@ articleUpadata = async (req, res) => {
     var result = await DbServe.U(req.body, where)
     res.send(result)
 }
-module.exports = { addArticle, articleList, articleUpadata }
+articleInfo = async (req, res) => {
+    var brow = await DbServe.Browse(req.query);
+    var result = await DbServe.R(req.query);
+    res.send(result)
+}
+module.exports = { addArticle, articleList, articleUpadata, articleInfo }

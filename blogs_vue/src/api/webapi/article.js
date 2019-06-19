@@ -20,6 +20,11 @@ export const articleUpdata = async (obj) => {
     var result = await ajax.POST(url, obj)
     return falg(result.code)
 }
+export const articleInfo=async(obj)=>{
+    var url=before+'info';
+    var result=await ajax.GET(url,obj)
+    return result
+}
 function falg(num) {
     if (num == 0) {
         return true

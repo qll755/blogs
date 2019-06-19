@@ -5,10 +5,12 @@ router.post('/article/add', (req, res) => {
 })
 
 router.get('/article/list', (req, res) => {
-    console.log(2)
     Controller.articleList(req, res)
 })
 router.post('/article/updata', (req, res) => {
     Controller.articleUpadata(req, res)
+})
+router.get('/article/info', (req, res) => {
+    Controller.articleInfo(req, res)
 })
 module.exports = router

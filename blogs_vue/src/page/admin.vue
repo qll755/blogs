@@ -53,4 +53,14 @@ export default {
 .el-main {
   background: white;
 }
+@media screen and (min-width: 1245px) {
+  #app {
+    width: 1245px;
+    margin: 0 auto;
+  }
+
+  html {
+    background: linear-gradient(rgb(220, 220, 220), black);
+  }
+}
 </style>

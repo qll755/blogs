@@ -12,8 +12,8 @@
           <el-button size="mini" type="info" round>{{ scope.row.articletype }}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="articletittle" width="100" label="标题"/>
-      <el-table-column prop="articlecon" width="100" label="内容">
+      <el-table-column prop="articletittle" width="300" label="标题"/>
+      <el-table-column prop="articlecon" width="90" label="内容">
         <template slot-scope="scope">
           <span class="articleInfo" @click="articleInfo(scope.$index, scope.row)">查看详情</span>
         </template>
@@ -34,26 +34,34 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
+              @click="articleDel(scope.$index, scope.row)"
               icon="el-icon-delete"
             ></el-button>
           </el-tooltip>
-          <el-tooltip effect="dark" content="已发表" placement="top">
+          <el-tooltip v-if="scope.row.status!=0" effect="dark" content="取消发表" placement="top">
+            <el-button
+              size="mini"
+              type="warning"
+              @click="publishCecal(scope.$index, scope.row)"
+              icon="el-icon-folder-delete"
+            ></el-button>
+          </el-tooltip>
+          <el-tooltip v-else effect="dark" content="发表" placement="top">
             <el-button
               size="mini"
               type="success"
-              @click="handleDelete(scope.$index, scope.row)"
+              @click="publish(scope.$index, scope.row)"
               icon="el-icon-folder-checked"
             ></el-button>
           </el-tooltip>
-          <el-tooltip effect="dark" content="Excel" placement="top">
+          <!-- <el-tooltip effect="dark" content="Excel" placement="top">
             <el-button
               size="mini"
               type="primary"
               @click="handleDelete(scope.$index, scope.row)"
               icon="el-icon-upload2"
             ></el-button>
-          </el-tooltip>
+          </el-tooltip>-->
         </template>
       </el-table-column>
     </el-table>
@@ -72,7 +80,7 @@
 </template>
 <script>
 import { articleTypeList } from "./../../api/webapi/articleType";
-import { articleList } from "./../../api/webapi/article";
+import { articleList, articleUpdata } from "./../../api/webapi/article";
 export default {
   data() {
     return {
@@ -89,6 +97,60 @@ export default {
     this.Alist();
   },
   methods: {
+    async publish(e, v) {
+      // 发表
+      var id = v.id;
+      var obj = {
+        id,
+        status: 1
+      };
+      var result = await articleUpdata(obj);
+      if (result) {
+        this.$message({
+          message: "已发表！",
+          type: "success"
+        });
+        this.Alist();
+      } else {
+        this.$message.error("操作失败失败");
+      }
+    },
+    async publishCecal(e, v) {
+      // 取消发表
+      var id = v.id;
+      var obj = {
+        id,
+        status: 0
+      };
+      var result = await articleUpdata(obj);
+      if (result) {
+        this.$message({
+          message: "已取消发表",
+          type: "warning"
+        });
+        this.Alist();
+      } else {
+        this.$message.error("操作失败");
+      }
+    },
+    async articleDel(e, v) {
+      // 放入回收站
+      var id = v.id;
+      var obj = {
+        id,
+        recyclebin: 1
+      };
+      var result = await articleUpdata(obj);
+      if (result) {
+        this.$message({
+          message: "已放入回收站，可在回收站恢复文章",
+          type: "warning"
+        });
+        this.Alist();
+      } else {
+        this.$message.error("放入失败");
+      }
+    },
     pageNumChange(e) {
       // 每页条数
       console.log(e);
@@ -124,7 +186,8 @@ export default {
     async Alist() {
       var obj = {
         limit: this.limit,
-        page: this.page
+        page: this.page,
+        recyclebin: 0
       };
       var result = await articleList(obj);
       this.textList = result.data;
@@ -132,7 +195,12 @@ export default {
       // debugger
       this.count = result.count;
     },
-    articleInfo(e, v) {}
+    articleInfo(e, v) {
+      this.$alert(v.articlecon, v.articletittle, {
+        confirmButtonText: "确定",
+        dangerouslyUseHTMLString: true
+      });
+    }
   }
 };
 </script>
@@ -147,5 +215,12 @@ export default {
 .page {
   display: flex;
   justify-content: center;
+}
+.el-message-box {
+  width: 90vh;
+}
+.el-message-box__content {
+  height: 500px;
+  overflow: scroll;
 }
 </style>

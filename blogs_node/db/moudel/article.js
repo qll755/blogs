@@ -14,7 +14,7 @@ const article = DB.define('article', {
     },
     //文章类型
     articletype: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.STRING(100),
         allowNull: false,//不允许为null
     },
     // 文章内容
@@ -35,7 +35,17 @@ const article = DB.define('article', {
     user_id: {
         type: Sequelize.STRING(10),
         allowNull: false,//不允许为null
-    }
+    },
+    // 浏览量
+    browse: {
+        defaultValue: 0,//默认值是0
+        type: Sequelize.BIGINT,
+    },
+    // 是否放入回收站 0 未放入  默认0
+    recyclebin: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,//默认值是0
+    },
 }, { freezeTableName: true, timestamps: false });
 // 模型关联
 article.belongsTo(user, { foreignKey: 'user_id', targetKey: 'id', as: 'user' })
