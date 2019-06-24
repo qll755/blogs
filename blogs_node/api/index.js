@@ -4,6 +4,8 @@ var user = require('./userApi');
 var article = require('./article')
 // 引入文章类别
 var articleType = require('./articleType')
+// 引入文章评论模块
+var articleComment = require('./comment')
 module.exports = {
-    user, article,articleType
+    user, article, articleType, articleComment
 }

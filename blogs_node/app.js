@@ -7,7 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var API = require('./api')
 var app = express();
-var test = require('./db/moudel/articleType')
+var test = require('./server/comment')
 
 
 // 引入session模块

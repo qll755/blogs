@@ -23,15 +23,16 @@ export default {
 <style >
 .warp {
   width: 100%;
-  height: 100%;
-  padding-top: 3%;
+  height: auto;
+  padding-top: 51px;
 }
 .content {
   width: 50%;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  padding-top: 2%;
+  padding-top: 1.7%;
+  height: 92vh;
 }
 .router {
   height: auto;
@@ -42,7 +43,9 @@ export default {
 }
 @media screen and (max-width: 640px) {
   .warp {
-    padding-top: 8%;
+    margin: 0 auto;
+    width: 97%;
+    padding: 0;
   }
   .router,
   .nar {

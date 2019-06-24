@@ -46,6 +46,11 @@ const article = DB.define('article', {
         type: Sequelize.INTEGER,
         defaultValue: 0,//默认值是0
     },
+    // 点赞数
+    easyLike: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,//默认值是0
+    }
 }, { freezeTableName: true, timestamps: false });
 // 模型关联
 article.belongsTo(user, { foreignKey: 'user_id', targetKey: 'id', as: 'user' })

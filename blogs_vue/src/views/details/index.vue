@@ -5,20 +5,45 @@
         <el-image :src="'http://192.168.3.15:8080/imgs/'+item+'.jpg'" hight="100%"></el-image>
       </el-carousel-item>
     </el-carousel>
-    <div class="articelItems">
-      <articeItem   title="测试" con="测试内容" good="点赞数" talking="讨论" browse="浏览"/>
+    <div class="articelItems" v-for="item in dataList ">
+      <articeItem
+        :title="item.articletittle"
+        :con="item.articlecon"
+        :good="item.easyLike"
+        talking="item.articlecon"
+        :browse="item.browse"
+        :id="item.id"
+        :type="item.articletype"
+        :createTime="item.createtime"
+      />
     </div>
   </div>
 </template>
 <script>
-import  articeItem  from "./../../components/homeArticeItem.vue";
+import articeItem from "./../../components/homeArticeItem.vue";
+import { articleList } from "./../../api/webapi/article";
 export default {
   data() {
-    return {};
+    return {
+      dataList: []
+    };
   },
   components: {
     articeItem
   },
+  created() {
+    this.getList();
+  },
+  methods: {
+    async getList() {
+      var obj = {
+        status: 0,
+        recyclebin: 0
+      };
+      var result = await articleList(obj);
+      this.dataList = result.data;
+    }
+  }
 };
 </script>
 <style>

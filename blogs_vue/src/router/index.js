@@ -64,7 +64,13 @@ var router = new Router({
                 path: 'index',
                 name: '首页',
                 component: () => import('./../views/details/index.vue')
-            }]
+            }, {
+                path: 'article/:articleId',
+                name: '文章内容',
+                component: () => import('./../views/details/articleInfo.vue')
+            }
+
+            ]
         }
 
     ]

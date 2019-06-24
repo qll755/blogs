@@ -11,6 +11,26 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 // 引入富文本编辑器
 
+const store = {
+  data() {
+    return {
+      un: '',
+      id: 0
+    }
+  },
+  setData(un, id) {
+    this.data.un = un;
+    this.data.id = id
+  },
+  init() {
+    this.data.un = '';
+    this.data.id = 0
+  }
+}
+// 定义全局变量及全局方法储存到vue实例当中  用于储存当前的登录的用户的用户信息
+Vue.prototype.userInfo = store
+
+
 
 Vue.use(VueQuillEditor)
 Vue.use(ElementUI)
