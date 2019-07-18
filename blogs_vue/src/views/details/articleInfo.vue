@@ -33,7 +33,7 @@ export default {
   width: 70%;
 }
 .con img {
-  width: 200%;
+  width: 150%;
 }
 @media screen and (max-width: 640px) {
   .con img {
