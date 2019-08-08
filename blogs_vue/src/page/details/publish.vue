@@ -216,6 +216,9 @@ export default {
   display: flex;
   justify-content: center;
 }
+
+
+
 .el-message-box {
   width: 90vh;
 }
