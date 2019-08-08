@@ -219,6 +219,7 @@ export default {
 
 
 
+
 .el-message-box {
   width: 90vh;
 }
