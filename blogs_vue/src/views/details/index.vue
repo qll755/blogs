@@ -2,7 +2,7 @@
   <div>
     <el-carousel :interval="4000" type="card">
       <el-carousel-item v-for="item in 4" :key="item">
-        <el-image :src="'http://192.168.3.15:8080/imgs/'+item+'.jpg'" hight="100%"></el-image>
+        <el-image :src="'http://192.168.3.81:8080/imgs/'+item+'.jpg'" hight="100%"></el-image>
       </el-carousel-item>
     </el-carousel>
     <div class="articelItems" v-for="item in dataList ">

@@ -1,7 +1,11 @@
 <template>
   <div>
     <div>{{dataList.articletittle}}</div>
-    <div>{{dataList.articletype}}{{dataList.createtime}}{{dataList.user}}{{dataList.browse}}</div>
+    <div>
+      标签：{{dataList.articletype}}
+      写作时间：{{dataList.createtime}}
+      作者：{{dataList.user.nickname}}
+      浏览量：{{dataList.browse}}</div>
     <div class="con" v-html="dataList.articlecon"></div>
     <Talk/>
   </div>
